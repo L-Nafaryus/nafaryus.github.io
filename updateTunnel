@@ -23,7 +23,7 @@ cd ~/nafaryus.github.io/
 echo $redirect_template > redirect/index.html
 
 git add redirect/index.html
-git commit -q --amend --no-edit
+git commit -q --m "autoupdate link"
 git push -q -u origin master --quiet
 
 exit 0
