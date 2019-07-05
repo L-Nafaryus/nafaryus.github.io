@@ -1,0 +1,28 @@
+#!/bin/bash
+
+ngrok_hostname=$(curl --silent http://127.0.0.1:4040/api/tunnels | jq '.tunnels[0].public_url')
+
+read -d '' redirect_template << _EOF_
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="refresh" content="0; url=$ngrok_hostname">
+        <script type="text/javascript">
+		window.location.href = "$ngrok_hostname"
+	</script>
+        <title>Page Redirection</title>
+    </head>
+    <body>
+	If you are not redirected automatically, follow this 
+	<a href="$ngrok_hostname">ngrok link</a>.
+    </body>
+</html>
+_EOF_
+
+echo $redirect_template > redirect/index.html
+
+git add redirect/index.html
+git commit -F redirect/index.html --allow-empty-message
+git push -u origin master
+
+exit 0
